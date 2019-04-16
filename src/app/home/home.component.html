@@ -1,0 +1,63 @@
+<navbar></navbar>
+<br />
+<div class="col-md-3">
+  <tour-search></tour-search>
+</div>
+
+<div class="col-md-6"></div>
+
+<div class="col-md-3">
+  <div class="input-group mb-3">
+    <input [(ngModel)]="searchTour" type="text" class="form-control form-control-sm" placeholder="Nhập từ khóa..." />
+    <div class="input-group-append">
+      <span class="input-group-text" id="basic-addon2"><span class="fa fa-search"></span></span>
+    </div>
+  </div>
+</div>
+
+<h3 class="text-center">List Travel Address</h3>
+
+<div *ngFor="
+    let tour of (tours
+      | tourFilter
+        : {
+            name: searchTour,
+            description: searchTour,
+            content: searchTour,
+            city: searchTour
+          }
+      | paginate: { itemsPerPage: 8, currentPage: p })
+  " class="col-md-3">
+  <a title="{{ tour.description }}" routerLink="/tour-detail/{{ tour.id }}">
+    <img class="image" src="{{ tour.images }}" height="200" width="100%" />
+    <div class="module">
+      <h5>{{ tour.name }}</h5>
+      <small [innerHTML]="tour.content" style="display: inline-block;"></small> &nbsp;
+      <small>{{ tour.description }}</small> &nbsp;
+      <small>{{ tour.category }}</small> &nbsp;
+      <small>{{ tour.address }}</small> &nbsp;
+      <small>{{ tour.city }}</small>
+      <br />
+      <small>Ngày tạo:
+        {{ tour.created_date | date: "dd/MM/yyyy h:mm a" }}</small>
+    </div>
+  </a>
+  <div class="text-right">
+    <a routerLink="/update-tour/{{ tour.id }}"><button class="buttonEdit btn btn-primary btn-sm" title="edit tour">
+        Edit
+      </button></a>
+
+    <button class="buttonDelete btn btn-danger btn-sm" title="delete tour"
+      (click)="delete(tour); $event.stopPropagation()">
+      Delete
+    </button>
+  </div>
+</div>
+
+<div style="clear: both;"></div>
+
+<div class="col-md-4"></div>
+<div class="col-md-4">
+  <pagination-controls class="text-center" (pageChange)="p = $event"></pagination-controls>
+</div>
+<div class="col-md-4"></div>

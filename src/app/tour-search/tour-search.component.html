@@ -1,0 +1,13 @@
+<div id="search-component">
+  <div class="input-group">
+    <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control form-control-sm"
+      placeholder="Nhập từ khóa..." />
+  </div>
+  <ul class="search-result">
+    <li *ngFor="let tour of (tours | async)">
+      <a routerLink="/tour-detail/{{ tour.id }}">
+        {{ tour.name }}
+      </a>
+    </li>
+  </ul>
+</div>

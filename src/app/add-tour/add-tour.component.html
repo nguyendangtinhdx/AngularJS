@@ -1,0 +1,108 @@
+<navbar></navbar>
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <h2 class="modal-title text-center">Add Tour</h2>
+    <form class="was-validated" [formGroup]="tourForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="Name">Name</label>
+        <div class="input-group mb-2">
+          <!-- <div class="input-group-prepend">
+                        <div class="input-group-text form-control-sm"><span class="fa fa-user"></span></div>
+                    </div> -->
+          <input type="text" formControlName="Name" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }"
+            class="form-control form-control-sm" placeholder="Enter name" autofocus required maxlength="255" />
+          <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+            <div *ngIf="f.Name.errors.required">Name is required.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Description">Description</label>
+        <div class="input-group mb-2">
+          <!-- <div class="input-group-prepend">
+                        <div class="input-group-text form-control-sm"><span class="fa fa-newspaper-o"></span></div>
+                    </div> -->
+          <input type="text" formControlName="Description"
+            [ngClass]="{ 'is-invalid': submitted && f.Description.errors }" class="form-control form-control-sm"
+            placeholder="Enter description" autofocus required maxlength="255" />
+          <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+            <div *ngIf="f.Description.errors.required">
+              Description is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Content">Content</label>
+        <ck-editor name="editor1" formControlName="Content" [ngClass]="{ 'is-invalid': submitted && f.Content.errors }"
+          skin="moono-lisa" language="en" [fullPage]="true"></ck-editor>
+      </div>
+      <div class="form-group">
+        <label for="Date">Datetime</label>&nbsp;
+        <input class="form-control form-control-sm datetime" placeholder="Select Date Time"
+          [(ngModel)]="invalidDateTime" [min]="min" [max]="max" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+          formControlName="Date" [ngClass]="{ 'is-invalid': submitted && f.Date.errors }" />
+        <span class="example-trigger" [owlDateTimeTrigger]="dt1">
+          &nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>
+        </span>
+        <owl-date-time #dt1></owl-date-time>
+      </div>
+      <!-- <div class="form-group">
+                <label for="Date">Date Time</label>&nbsp;
+                <input type="datetime-local" class="form-control form-control-sm datetime" formControlName="Date"
+                    [ngClass]="{ 'is-invalid': submitted && f.Date.errors }">
+                &nbsp;<i class="fa fa-calendar" aria-hidden="true"></i>
+                <div *ngIf="submitted && f.Date.errors" class="invalid-feedback">
+                    <div *ngIf="f.Date.errors.required">Date is required.</div>
+                </div>
+            </div> -->
+      <div class="form-group">
+        <label for="Category">Category</label>
+        <select class="form-control form-control-sm" formControlName="Category"
+          [ngClass]="{ 'is-invalid': submitted && f.Category.errors }" required>
+          <option [value]="category" *ngFor="let category of categorys">
+            {{ category }}</option>
+        </select>
+        <div *ngIf="submitted && f.Category.errors" class="invalid-feedback">
+          <div *ngIf="f.Category.errors.required">Category is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="City">City</label>
+        <select class="form-control form-control-sm" formControlName="City"
+          [ngClass]="{ 'is-invalid': submitted && f.City.errors }" required>
+          <option [value]="city.province" *ngFor="let city of ('../../assets/json/city.json' | fetch)">
+            {{ city.province }}</option>
+        </select>
+        <div *ngIf="submitted && f.City.errors" class="invalid-feedback">
+          <div *ngIf="f.City.errors.required">City is required.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Address">Address</label>
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false"
+          (mapClick)="mapClicked($event)">
+          <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)"
+            [latitude]="m.lat" [longitude]="m.lng" [label]="m.label">
+            <agm-info-window>
+              <strong>InfoWindow content</strong>
+            </agm-info-window>
+          </agm-marker>
+        </agm-map>
+      </div>
+      <div class="form-group files">
+        <label for="Image">Upload Image</label>
+        <input type="file" formControlName="Image" [ngClass]="{ 'is-invalid': submitted && f.Image.errors }"
+          class="form-control" multiple="" />
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" class="btn btn-success btn-sm">
+          Add Tour</button>&nbsp;
+        <img *ngIf="loading" src="../../assets/img/loading.gif" />&nbsp;
+        <button (click)="goBack()" class="btn btn-danger btn-sm">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-3"></div>
+</div>

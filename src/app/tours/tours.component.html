@@ -1,0 +1,21 @@
+<navbar></navbar>
+
+<div class="formTour">
+  <label>Tour name:
+    <input #tourName class="form-control form-control-sm" />
+  </label>
+  &nbsp;
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="add(tourName.value); tourName.value=''" class="btn btn-success btn-sm">
+    Add
+  </button>
+</div>
+
+<ul class="tours">
+  <li *ngFor="let tour of tours">
+    <a routerLink="/tour-detail/{{tour.id}}">
+      <span class="badge">{{tour.id}}</span> {{tour.name}}
+    </a>
+    <button class="delete btn btn-danger btn-sm" title="delete tour" (click)="delete(tour);$event.stopPropagation()">x</button>
+  </li>
+</ul>

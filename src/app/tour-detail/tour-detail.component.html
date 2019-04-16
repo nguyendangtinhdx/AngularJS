@@ -1,0 +1,17 @@
+<navbar></navbar>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div *ngIf="tour">
+      <img class="image" src="{{ tour.images }}" height="300" width="100%" />
+      <h2>{{ tour.name | uppercase }}</h2>
+      <div>
+        <label>Description:<input [(ngModel)]="tour.description" placeholder="content"  />
+        </label>
+      </div>
+      <button (click)="goBack()" class="btn btn-secondary btn-sm">Go back</button>
+      <!-- <button (click)="save()">save</button> -->
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
